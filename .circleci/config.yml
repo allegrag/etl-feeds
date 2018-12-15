@@ -27,7 +27,7 @@ jobs:
           name: install dependencies
           command: |
             pip install awscli --upgrade --user
-            python -m venv venv
+            python -m virtualenv venv
             . venv/bin/activate
             pip install -r requirements.txt
 
