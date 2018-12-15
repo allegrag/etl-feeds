@@ -1,0 +1,89 @@
+version: 2
+references:
+  dirs:
+    etl_feeds: &etl_feeds_dir
+      ~/etl-feeds
+  environment:
+    global: &global_environment
+      - DEPLOY_BRANCHES: master,staging,production
+jobs:
+  build:
+    docker:
+      - image: circleci/python:2.7
+    environment: *global_environment
+    working_directory: *etl_feeds_dir
+
+    steps:
+      - checkout
+
+      # Download and cache dependencies
+      - restore_cache:
+          keys:
+          - v1-dependencies-{{ checksum "requirements.txt" }}
+          # fallback to using the latest cache if no exact match is found
+          - v1-dependencies-
+
+      - run:
+          name: install dependencies
+          command: |
+            pip install awscli --upgrade --user
+            python -m venv venv
+            . venv/bin/activate
+            pip install -r requirements.txt
+
+      - save_cache:
+          paths:
+            - ./venv
+          key: v1-dependencies-{{ checksum "requirements.txt" }}
+
+      - store_artifacts:
+          path: test-reports
+          destination: test-reports
+  deploy-dev:
+    docker:
+      - image: ubuntu:14.04
+    working_directory: /tmp/my-project  
+    steps:
+      - run:
+          name: Deploy if tests pass and branch is Master
+          command: aws s3 sync ./data s3://etl-feeds-test/dev/data --region us-west-2               
+  deploy-stage:
+    docker:
+      - image: ubuntu:14.04
+    working_directory: /tmp/my-project  
+    steps:
+      - run:
+          name: Deploy if tests pass and branch is Staging
+          command: aws s3 sync ./data s3://etl-feeds-test/staging/data --region us-west-2     
+          
+  deploy-prod:
+    docker:
+      - image: ubuntu:14.04
+    working_directory: /tmp/my-project  
+    steps:
+      - run:
+          name: Deploy if tests pass and branch is Production
+          command: aws s3 sync ./data s3://etl-feeds-test/prod/data --region us-west-2
+workflows:
+  version: 2
+  build-deploy:
+    jobs:
+      - build
+      - deploy-dev:
+          requires:
+            - build
+          filters:
+            branches:
+              only: master
+      - deploy-stage:
+          requires:
+            - build
+          filters:
+            branches:
+              only: staging
+      - deploy-prod:
+          requires:
+            - build
+          filters:
+            branches:
+              only: production
