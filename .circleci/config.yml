@@ -48,6 +48,7 @@ jobs:
           command: |
             pip install awscli --upgrade --user
             PATH=${PATH}:/home/circleci/.local/bin
+            ls
             aws s3 sync ./data s3://etl-feeds-test/dev/data --region us-west-2               
   deploy-stage:
     docker:
