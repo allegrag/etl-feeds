@@ -43,30 +43,22 @@ jobs:
       - image: circleci/python:2.7
     working_directory: *etl_feeds_dir  
     steps:
-      - restore_cache:
-          keys:
-          - v1-dependencies-{{ checksum "requirements.txt" }}
-          # fallback to using the latest cache if no exact match is found
-          - v1-dependencies-
       - run:
           name: Deploy if tests pass and branch is Master
           command: |
             pip install awscli --upgrade --user
+            PATH=${PATH}:/home/circleci/.local/bin
             aws s3 sync ./data s3://etl-feeds-test/dev/data --region us-west-2               
   deploy-stage:
     docker:
       - image: circleci/python:2.7
     working_directory: *etl_feeds_dir 
     steps:
-      - restore_cache:
-          keys:
-          - v1-dependencies-{{ checksum "requirements.txt" }}
-          # fallback to using the latest cache if no exact match is found
-          - v1-dependencies-
       - run:
           name: Deploy if tests pass and branch is Staging
           command: |
             pip install awscli --upgrade --user
+            PATH=${PATH}:/home/circleci/.local/bin
             aws s3 sync ./data s3://etl-feeds-test/staging/data --region us-west-2     
           
   deploy-prod:
@@ -74,15 +66,11 @@ jobs:
       - image: circleci/python:2.7
     working_directory: *etl_feeds_dir 
     steps:
-      - restore_cache:
-          keys:
-          - v1-dependencies-{{ checksum "requirements.txt" }}
-          # fallback to using the latest cache if no exact match is found
-          - v1-dependencies-
       - run:
           name: Deploy if tests pass and branch is Production
           command: |
             pip install awscli --upgrade --user
+            PATH=${PATH}:/home/circleci/.local/bin
             aws s3 sync ./data s3://etl-feeds-test/prod/data --region us-west-2
 workflows:
   version: 2
