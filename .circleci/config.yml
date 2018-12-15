@@ -26,7 +26,6 @@ jobs:
       - run:
           name: install dependencies
           command: |
-            pip install awscli --upgrade --user
             python -m virtualenv venv
             . venv/bin/activate
             pip install -r requirements.txt
@@ -46,7 +45,9 @@ jobs:
     steps:
       - run:
           name: Deploy if tests pass and branch is Master
-          command: aws s3 sync ./data s3://etl-feeds-test/dev/data --region us-west-2               
+          command: |
+            pip install awscli --upgrade --user
+            aws s3 sync ./data s3://etl-feeds-test/dev/data --region us-west-2               
   deploy-stage:
     docker:
       - image: ubuntu:14.04
@@ -54,7 +55,9 @@ jobs:
     steps:
       - run:
           name: Deploy if tests pass and branch is Staging
-          command: aws s3 sync ./data s3://etl-feeds-test/staging/data --region us-west-2     
+          command: |
+            pip install awscli --upgrade --user
+            aws s3 sync ./data s3://etl-feeds-test/staging/data --region us-west-2     
           
   deploy-prod:
     docker:
@@ -63,7 +66,9 @@ jobs:
     steps:
       - run:
           name: Deploy if tests pass and branch is Production
-          command: aws s3 sync ./data s3://etl-feeds-test/prod/data --region us-west-2
+          command: |
+            pip install awscli --upgrade --user
+            aws s3 sync ./data s3://etl-feeds-test/prod/data --region us-west-2
 workflows:
   version: 2
   build-deploy:
