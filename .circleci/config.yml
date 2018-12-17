@@ -43,6 +43,7 @@ jobs:
       - image: circleci/python:2.7
     working_directory: *etl_feeds_dir  
     steps:
+      - checkout
       - run:
           name: Deploy if tests pass and branch is Master
           command: |
@@ -50,12 +51,13 @@ jobs:
             PATH=${PATH}:/home/circleci/.local/bin
             cd ~/etl-feeds
             ls
-            aws s3 sync ~/etl-feeds/data s3://etl-feeds-test/dev/data --region us-west-2               
+            aws s3 sync ./data s3://etl-feeds-test/dev/data --region us-west-2               
   deploy-stage:
     docker:
       - image: circleci/python:2.7
     working_directory: *etl_feeds_dir 
     steps:
+      - checkout
       - run:
           name: Deploy if tests pass and branch is Staging
           command: |
@@ -68,6 +70,7 @@ jobs:
       - image: circleci/python:2.7
     working_directory: *etl_feeds_dir 
     steps:
+      - checkout
       - run:
           name: Deploy if tests pass and branch is Production
           command: |
