@@ -13,7 +13,9 @@ def cast_to_bool(value):
 
 
 def cast_to_decimal(value):
-    return decimal.Decimal(re.sub('[^\d\.]', '', value.replace('$', '')))
+    if re.search(r'[^0-9$.,]', value.strip()):
+        raise decimal.InvalidOperation
+    return decimal.Decimal(re.sub(r'[^\d\.]', '', value))
 
 
 TYPE_CAST_MAP = {
