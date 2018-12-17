@@ -29,11 +29,12 @@ jobs:
             python -m virtualenv venv
             . venv/bin/activate
             pip install -r requirements.txt
-            PATH=${PATH}:/home/circleci/.local/bin
 
       - run:
           name: run tests
-          command: nosetests -v tests/test_feeds.py --nocapture
+          command: |
+            . venv/bin/activate
+            nosetests -v tests/test_feeds.py --nocapture
 
       - save_cache:
           paths:
