@@ -3,7 +3,7 @@ import json
 import os
 import unittest
 import csv
-import sys
+import re
 
 
 def cast_to_bool(value):
@@ -11,10 +11,15 @@ def cast_to_bool(value):
         raise ValueError
     return bool(value)
 
+
+def cast_to_decimal(value):
+    return decimal.Decimal(re.sub('[^\d\.]', '', value.replace('$', '')))
+
+
 TYPE_CAST_MAP = {
     'LONG': long,
     'BOOLEAN': cast_to_bool,
-    'DECIMAL': decimal.Decimal,
+    'DECIMAL': cast_to_decimal,
     'STRING': str
 }
 
@@ -52,10 +57,10 @@ class ProductsTest(unittest.TestCase):
                         self.assertTrue(req_columns_present)
 
                     for field, value in row.items():
-                        if field in TYPE_CAST_MAP:
+                        if field in self.config['COLUMNS']:
                             try:
-                                TYPE_CAST_MAP[field](value)
-                            except TYPE_EXCEPTION_MAP[field]:
+                                TYPE_CAST_MAP[self.config['COLUMNS'][field]](value)
+                            except TYPE_EXCEPTION_MAP[self.config['COLUMNS'][field]]:
                                 self.fail(('Type cast exception in row {row_number} for field {field}, value {value}. '
                                            'Expected value of type {type}.')
                                           .format(row_number=str(idx), field=field,
