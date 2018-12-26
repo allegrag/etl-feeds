@@ -50,7 +50,7 @@ jobs:
       S3_ENV: dev
       S3_ETL_FEEDS_BUCKET: etl-feeds-test
       GZIP: -9
-      BACKUP_MAX_DAYS: 0
+      BACKUP_MAX_DAYS: 60
     steps:
       - checkout
       - run:
