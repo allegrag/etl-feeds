@@ -34,7 +34,7 @@ do
         curdate=$(date -u +%s)
         maxdiff=$(($maxdays * 86400))
         if [[ $(($curdate-$filedate)) -gt $maxdiff ]] ; then
-            echo "removing stale file "$filename"."
+            echo "removing stale file: "$filename""
             rm $filename
         fi
     else
