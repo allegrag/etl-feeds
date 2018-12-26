@@ -61,7 +61,6 @@ jobs:
             CURRENTDATE=$(date -u +"%Y_%m_%d_%H_%M_%S")
             mkdir archives
             aws s3 sync s3://$S3_ETL_FEEDS_BUCKET/$S3_ENV/archives ./archives --region us-west-2
-            echo $BACKUP_MAX_DAYS
             bash ./remove_stale_feed_backups.sh $BACKUP_MAX_DAYS
             mkdir mkdir $CURRENTDATE
             aws s3 sync s3://$S3_ETL_FEEDS_BUCKET/$S3_ENV/data ./$CURRENTDATE --region us-west-2
