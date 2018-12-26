@@ -65,7 +65,7 @@ jobs:
             mkdir mkdir $CURRENTDATE
             aws s3 sync s3://$S3_ETL_FEEDS_BUCKET/$S3_ENV/data ./$CURRENTDATE --region us-west-2
             tar -zcvf ./archives/$CURRENTDATE.tar.gz ./$CURRENTDATE
-            aws s3 sync ./archives s3://$S3_ETL_FEEDS_BUCKET/$S3_ENV/archives --region us-west-2
+            aws s3 sync ./archives s3://$S3_ETL_FEEDS_BUCKET/$S3_ENV/archives --region us-west-2 --delete
             rm -r ./$CURRENTDATE
             rm -r ./archives
       - run:
@@ -82,7 +82,7 @@ jobs:
       S3_ENV: staging
       S3_ETL_FEEDS_BUCKET: etl-feeds-test
       GZIP: -9
-      BACKUP_MAX_DAYS: 0
+      BACKUP_MAX_DAYS: 60
     steps:
       - checkout
       - run:
@@ -105,7 +105,7 @@ jobs:
           command: |
             pip install awscli --upgrade --user
             PATH=${PATH}:/home/circleci/.local/bin
-            aws s3 sync ./data s3://$S3_ETL_FEEDS_BUCKET/$S3_ENV/data --region us-west-2
+            aws s3 sync ./data s3://$S3_ETL_FEEDS_BUCKET/$S3_ENV/data --region us-west-2 --delete
   deploy-prod:
     docker:
       - image: circleci/python:2.7
@@ -114,7 +114,7 @@ jobs:
       S3_ENV: prod
       S3_ETL_FEEDS_BUCKET: etl-feeds-test
       GZIP: -9
-      BACKUP_MAX_DAYS: 0
+      BACKUP_MAX_DAYS: 60
     steps:
       - checkout
       - run:
@@ -129,7 +129,7 @@ jobs:
             mkdir mkdir $CURRENTDATE
             aws s3 sync s3://$S3_ETL_FEEDS_BUCKET/$S3_ENV/data ./$CURRENTDATE --region us-west-2
             tar -zcvf ./archives/$CURRENTDATE.tar.gz ./$CURRENTDATE
-            aws s3 sync ./archives s3://$S3_ETL_FEEDS_BUCKET/$S3_ENV/archives --region us-west-2
+            aws s3 sync ./archives s3://$S3_ETL_FEEDS_BUCKET/$S3_ENV/archives --region us-west-2 --delete
             rm -r ./$CURRENTDATE
             rm -r ./archives
       - run:
