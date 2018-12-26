@@ -24,7 +24,8 @@ fi
 cd ./"$archivesdir"
 
 # For compressed archive files, check that
-# files are not older than $maxdays
+# files are not older than $maxdays. Remove if there
+# are stale files present
 echo "removing stale (>"$maxdays" days) feed file archives..."
 for filename in *.tar.gz;
 do

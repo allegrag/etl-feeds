@@ -14,7 +14,6 @@ jobs:
     working_directory: *etl_feeds_dir
     steps:
       - checkout
-
       # Download and cache dependencies
       - restore_cache:
           keys:
@@ -50,6 +49,8 @@ jobs:
     environment:
       S3_ENV: dev
       S3_ETL_FEEDS_BUCKET: etl-feeds-test
+      GZIP: -9
+      BACKUP_MAX_DAYS: 0
     steps:
       - checkout
       - run:
@@ -57,12 +58,13 @@ jobs:
           command: |
             pip install awscli --upgrade --user
             PATH=${PATH}:/home/circleci/.local/bin
-            CURRENTDATE=$(date +"%Y_%m_%d_%H_%M_%S")
+            CURRENTDATE=$(date -u +"%Y_%m_%d_%H_%M_%S")
             mkdir archives
             aws s3 sync s3://$S3_ETL_FEEDS_BUCKET/$S3_ENV/archives ./archives --region us-west-2
+            ./remove_stale_feed_backups.sh $BACKUP_MAX_DAYS
             mkdir mkdir $CURRENTDATE
             aws s3 sync s3://$S3_ETL_FEEDS_BUCKET/$S3_ENV/data ./$CURRENTDATE --region us-west-2
-            env GZIP=-9 tar -zcvf ./archives/$CURRENTDATE.tar.gz ./$CURRENTDATE
+            tar -zcvf ./archives/$CURRENTDATE.tar.gz ./$CURRENTDATE
             aws s3 sync ./archives s3://$S3_ETL_FEEDS_BUCKET/$S3_ENV/archives --region us-west-2
             rm -r ./$CURRENTDATE
             rm -r ./archives
@@ -79,6 +81,8 @@ jobs:
     environment:
       S3_ENV: staging
       S3_ETL_FEEDS_BUCKET: etl-feeds-test
+      GZIP: -9
+      BACKUP_MAX_DAYS: 0
     steps:
       - checkout
       - run:
@@ -86,12 +90,13 @@ jobs:
           command: |
             pip install awscli --upgrade --user
             PATH=${PATH}:/home/circleci/.local/bin
-            CURRENTDATE=$(date +"%Y_%m_%d_%H_%M_%S")
+            CURRENTDATE=$(date -u +"%Y_%m_%d_%H_%M_%S")
             mkdir archives
             aws s3 sync s3://$S3_ETL_FEEDS_BUCKET/$S3_ENV/archives ./archives --region us-west-2
+            ./remove_stale_feed_backups.sh $BACKUP_MAX_DAYS         
             mkdir mkdir $CURRENTDATE
             aws s3 sync s3://$S3_ETL_FEEDS_BUCKET/$S3_ENV/data ./$CURRENTDATE --region us-west-2
-            env GZIP=-9 tar -zcvf ./archives/$CURRENTDATE.tar.gz ./$CURRENTDATE
+            tar -zcvf ./archives/$CURRENTDATE.tar.gz ./$CURRENTDATE
             aws s3 sync ./archives s3://$S3_ETL_FEEDS_BUCKET/$S3_ENV/archives --region us-west-2
             rm -r ./$CURRENTDATE
             rm -r ./archives
@@ -108,6 +113,8 @@ jobs:
     environment:
       S3_ENV: prod
       S3_ETL_FEEDS_BUCKET: etl-feeds-test
+      GZIP: -9
+      BACKUP_MAX_DAYS: 0
     steps:
       - checkout
       - run:
@@ -115,12 +122,13 @@ jobs:
           command: |
             pip install awscli --upgrade --user
             PATH=${PATH}:/home/circleci/.local/bin
-            CURRENTDATE=$(date +"%Y_%m_%d_%H_%M_%S")
+            CURRENTDATE=$(date -u +"%Y_%m_%d_%H_%M_%S")
             mkdir archives
             aws s3 sync s3://$S3_ETL_FEEDS_BUCKET/$S3_ENV/archives ./archives --region us-west-2
+            ./remove_stale_feed_backups.sh $BACKUP_MAX_DAYS
             mkdir mkdir $CURRENTDATE
             aws s3 sync s3://$S3_ETL_FEEDS_BUCKET/$S3_ENV/data ./$CURRENTDATE --region us-west-2
-            env GZIP=-9 tar -zcvf ./archives/$CURRENTDATE.tar.gz ./$CURRENTDATE
+            tar -zcvf ./archives/$CURRENTDATE.tar.gz ./$CURRENTDATE
             aws s3 sync ./archives s3://$S3_ETL_FEEDS_BUCKET/$S3_ENV/archives --region us-west-2
             rm -r ./$CURRENTDATE
             rm -r ./archives
