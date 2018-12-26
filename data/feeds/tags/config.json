@@ -1,0 +1,8 @@
+{
+  "COLUMNS": {
+    "PRODUCT_ID": "LONG",
+    "TAG_ID": "LONG",
+  },
+  "REQUIRED_COLUMNS": ["TAG_ID", "PRODUCT_ID"],
+  "UNIQUE_COLUMNS": ["TAG_ID"]
+}

@@ -32,24 +32,39 @@ TYPE_EXCEPTION_MAP = {
     'STRING': ValueError
 }
 
-FEED_PATH = os.path.abspath('data/feeds')
+BASE_FEEDS_PATH = os.path.abspath('data/feeds')
 
 
-class ProductsTest(unittest.TestCase):
-    PRODUCTS_PATH = os.path.join(FEED_PATH, 'products')
+@unittest.skip("Class disabled")
+class BaseFeedsTest(unittest.TestCase):
+    FEEDS_DIR = ''
 
     def setUp(self):
         self.files = []
         self.config = {}
-        for _, _, files in os.walk(self.PRODUCTS_PATH):
+
+        if not self.FEEDS_DIR:
+            self.fail('No feeds directory provided')
+
+        self.FEEDS_PATH = os.path.join(BASE_FEEDS_PATH, self.FEEDS_DIR)
+
+        if not os.path.isdir(self.FEEDS_PATH):
+            self.fail('Provided feeds path {feeds_path} is not a directory'
+                      .format(feeds_path=self.FEEDS_PATH))
+
+        for _, _, files in os.walk(self.FEEDS_PATH):
             for file_name in files:
-                file_path = os.path.join(self.PRODUCTS_PATH, file_name)
+                file_path = os.path.join(self.FEEDS_PATH, file_name)
                 if file_name.endswith(".csv"):
                     self.files.append(file_path)
                 elif file_name.endswith('config.json'):
                     self.config = json.loads(open(file_path).read())
 
-    def test_product_columns(self):
+        if not self.config:
+            self.fail('No config.json file found at feeds path {feeds_path}'
+                      .format(feeds_path=self.FEEDS_PATH))
+
+    def test_column_types(self):
         for file in self.files:
             print 'Checking {file}...'.format(file=file)
             with open(file, 'rb') as csvfile:
@@ -69,12 +84,12 @@ class ProductsTest(unittest.TestCase):
                                                   value=value, type=self.config['COLUMNS'][field]))
 
     def test_unique_columns(self):
-        unique_field_set_map = {}
+        unique_field_values_map = {}
 
         for column in self.config.get('UNIQUE_COLUMNS', []):
-            unique_field_set_map[column] = set()
+            unique_field_values_map[column] = {}
 
-        if not unique_field_set_map:
+        if not unique_field_values_map:
             self.skipTest('No unique columns found')
 
         for file in self.files:
@@ -82,10 +97,24 @@ class ProductsTest(unittest.TestCase):
             with open(file, 'rb') as csvfile:
                 for idx, row in enumerate(csv.DictReader(csvfile), start=1):
                     if not row.get('field'):
-                        self.skipTest('Missing unique column')
-                    for field, field_set in unique_field_set_map.items():
-                        self.assertTrue(row[field] not in field_set)
-                        field_set.add(row[field])
+                        print 'Skipping, missing unique column'
+                        continue
+                    for field, values_map in unique_field_values_map.items():
+                        if row[field] in values_map:
+                            self.fail(('Unique'))
+                        values_map.add(row[field])
+
+
+class SourceProductsTest(BaseFeedsTest):
+    FEEDS_DIR = 'source_products'
+
+
+class FilterProductsTest(BaseFeedsTest):
+    FEEDS_DIR = 'filter_products'
+
+
+class TagsTest(BaseFeedsTest):
+    FEEDS_DIR = 'tags'
 
 if __name__ == '__main__':
     unittest.main()
