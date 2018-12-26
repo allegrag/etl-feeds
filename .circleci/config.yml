@@ -64,7 +64,6 @@ jobs:
             tar -zcvf ./archives/$CURRENTDATE.tar.gz ./$CURRENTDATE
             aws s3 sync ./archives s3://etl-feeds-test/$S3_ENV/archives --region us-west-2
             rm -r ./$CURRENTDATE
-            rm $CURRENTDATE.tar.gz
             rm -r ./archives
       - run:
           name: Deploy if tests pass and branch is Master
@@ -93,7 +92,6 @@ jobs:
             tar -zcvf ./archives/$CURRENTDATE.tar.gz ./$CURRENTDATE
             aws s3 sync ./archives s3://etl-feeds-test/$S3_ENV/archives --region us-west-2
             rm -r ./$CURRENTDATE
-            rm $CURRENTDATE.tar.gz
             rm -r ./archives
       - run:
           name: Deploy if tests pass and branch is Staging
@@ -122,7 +120,6 @@ jobs:
             tar -zcvf ./archives/$CURRENTDATE.tar.gz ./$CURRENTDATE
             aws s3 sync ./archives s3://etl-feeds-test/$S3_ENV/archives --region us-west-2
             rm -r ./$CURRENTDATE
-            rm $CURRENTDATE.tar.gz
             rm -r ./archives
       - run:
           name: Deploy if tests pass and branch is Production
