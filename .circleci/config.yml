@@ -62,7 +62,7 @@ jobs:
             aws s3 sync s3://$S3_ETL_FEEDS_BUCKET/$S3_ENV/archives ./archives --region us-west-2
             mkdir mkdir $CURRENTDATE
             aws s3 sync s3://$S3_ETL_FEEDS_BUCKET/$S3_ENV/data ./$CURRENTDATE --region us-west-2
-            tar -zcvf ./archives/$CURRENTDATE.tar.gz ./$CURRENTDATE
+            env GZIP=-9 tar -zcvf ./archives/$CURRENTDATE.tar.gz ./$CURRENTDATE
             aws s3 sync ./archives s3://$S3_ETL_FEEDS_BUCKET/$S3_ENV/archives --region us-west-2
             rm -r ./$CURRENTDATE
             rm -r ./archives
@@ -91,7 +91,7 @@ jobs:
             aws s3 sync s3://$S3_ETL_FEEDS_BUCKET/$S3_ENV/archives ./archives --region us-west-2
             mkdir mkdir $CURRENTDATE
             aws s3 sync s3://$S3_ETL_FEEDS_BUCKET/$S3_ENV/data ./$CURRENTDATE --region us-west-2
-            tar -zcvf ./archives/$CURRENTDATE.tar.gz ./$CURRENTDATE
+            env GZIP=-9 tar -zcvf ./archives/$CURRENTDATE.tar.gz ./$CURRENTDATE
             aws s3 sync ./archives s3://$S3_ETL_FEEDS_BUCKET/$S3_ENV/archives --region us-west-2
             rm -r ./$CURRENTDATE
             rm -r ./archives
@@ -120,7 +120,7 @@ jobs:
             aws s3 sync s3://$S3_ETL_FEEDS_BUCKET/$S3_ENV/archives ./archives --region us-west-2
             mkdir mkdir $CURRENTDATE
             aws s3 sync s3://$S3_ETL_FEEDS_BUCKET/$S3_ENV/data ./$CURRENTDATE --region us-west-2
-            tar -zcvf ./archives/$CURRENTDATE.tar.gz ./$CURRENTDATE
+            env GZIP=-9 tar -zcvf ./archives/$CURRENTDATE.tar.gz ./$CURRENTDATE
             aws s3 sync ./archives s3://$S3_ETL_FEEDS_BUCKET/$S3_ENV/archives --region us-west-2
             rm -r ./$CURRENTDATE
             rm -r ./archives
