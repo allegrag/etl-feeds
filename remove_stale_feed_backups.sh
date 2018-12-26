@@ -5,7 +5,7 @@
 # or use default of 60 days
 if [ "$1" != "" ]; then
     re=^[0-9]+$
-    if ! [[ "$1" =~ $re ]] ; then
+    if ! [[ "$1" =~ "$re" ]] ; then
        echo $1
        echo "$1"
        echo "error: Not a number" >&2;
