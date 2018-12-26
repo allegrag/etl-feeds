@@ -30,7 +30,7 @@ for filename in *.tar.gz;
 do
     if [[ -e "$filename" ]]
     then
-        filedate=$(echo $filename | rev | cut -c 8- | rev | sed -e 's/_/-/g' -e 's/-/:/g4' -e 's/:/ /4' | xargs -I {} date -u +%s -d {})
+        filedate=$(echo $filename | rev | cut -c 8- | rev | sed -e 's/_/-/g' -e 's/-/:/g4' -e 's/-/ /3' | xargs -I {} date -u +%s -d {})
         curdate=$(date -u +%s)
         maxdiff=$(($maxdays * 86400))
         if [[ $(($curdate-$filedate)) -gt $maxdiff ]] ; then
