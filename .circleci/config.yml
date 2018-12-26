@@ -51,11 +51,28 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Deploy if tests pass and branch is Master
+          name: Setup dependencies
           command: |
             pip install awscli --upgrade --user
+            S3_ENV=dev
             PATH=${PATH}:/home/circleci/.local/bin
-            aws s3 sync ./data s3://etl-feeds-test/dev/data --region us-west-2               
+            CURRENTDATE=$(date +"%Y_%m_%d_%H_%M_%S")
+      - run:
+          name: Backup existing data
+          command: |
+            mkdir archives
+            aws s3 sync s3://etl-feeds-test/$S3_ENV/archives ./archives --region us-west-2
+            mkdir mkdir $CURRENTDATE
+            aws s3 sync s3://etl-feeds-test/$S3_ENV/data ./$CURRENTDATE --region us-west-2
+            tar -zcvf ./archives/$CURRENTDATE.tar.gz ./$CURRENTDATE
+            aws s3 sync ./archives s3://etl-feeds-test/$S3_ENV/archives --region us-west-2
+            rm -r ./$CURRENTDATE
+            rm $CURRENTDATE.tar.gz
+            rm -r ./archives
+      - run:
+          name: Deploy if tests pass and branch is Master
+          command: |
+            aws s3 sync ./data s3://etl-feeds-test/$S3_ENV/data --region us-west-2               
   deploy-stage:
     docker:
       - image: circleci/python:2.7
@@ -63,12 +80,28 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Deploy if tests pass and branch is Staging
+          name: Setup dependencies
           command: |
             pip install awscli --upgrade --user
+            S3_ENV=staging
             PATH=${PATH}:/home/circleci/.local/bin
-            aws s3 sync ./data s3://etl-feeds-test/staging/data --region us-west-2     
-          
+            CURRENTDATE=$(date +"%Y_%m_%d_%H_%M_%S")
+      - run:
+          name: Backup existing data
+          command: |
+            mkdir archives
+            aws s3 sync s3://etl-feeds-test/$S3_ENV/archives ./archives --region us-west-2
+            mkdir mkdir $CURRENTDATE
+            aws s3 sync s3://etl-feeds-test/$S3_ENV/data ./$CURRENTDATE --region us-west-2
+            tar -zcvf ./archives/$CURRENTDATE.tar.gz ./$CURRENTDATE
+            aws s3 sync ./archives s3://etl-feeds-test/$S3_ENV/archives --region us-west-2
+            rm -r ./$CURRENTDATE
+            rm $CURRENTDATE.tar.gz
+            rm -r ./archives
+      - run:
+          name: Deploy if tests pass and branch is Staging
+          command: |
+            aws s3 sync ./data s3://etl-feeds-test/$S3_ENV/data --region us-west-2
   deploy-prod:
     docker:
       - image: circleci/python:2.7
@@ -76,11 +109,30 @@ jobs:
     steps:
       - checkout
       - run:
+          name: Setup dependencies
+          command: |
+            pip install awscli --upgrade --user
+            S3_ENV=prod
+            PATH=${PATH}:/home/circleci/.local/bin
+            CURRENTDATE=$(date +"%Y_%m_%d_%H_%M_%S")
+      - run:
+          name: Backup existing data
+          command: |
+            mkdir archives
+            aws s3 sync s3://etl-feeds-test/$S3_ENV/archives ./archives --region us-west-2
+            mkdir mkdir $CURRENTDATE
+            aws s3 sync s3://etl-feeds-test/$S3_ENV/data ./$CURRENTDATE --region us-west-2
+            tar -zcvf ./archives/$CURRENTDATE.tar.gz ./$CURRENTDATE
+            aws s3 sync ./archives s3://etl-feeds-test/$S3_ENV/archives --region us-west-2
+            rm -r ./$CURRENTDATE
+            rm $CURRENTDATE.tar.gz
+            rm -r ./archives
+      - run:
           name: Deploy if tests pass and branch is Production
           command: |
             pip install awscli --upgrade --user
             PATH=${PATH}:/home/circleci/.local/bin
-            aws s3 sync ./data s3://etl-feeds-test/prod/data --region us-west-2
+            aws s3 sync ./data s3://etl-feeds-test/$S3_ENV/data --region us-west-2
 workflows:
   version: 2
   build-deploy:
