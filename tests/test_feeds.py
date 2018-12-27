@@ -63,7 +63,7 @@ class BaseFeedsTest(unittest.TestCase):
 
     def test_column_types(self):
         for file in self.files:
-            print 'Checking {file}...'.format(file=file)
+            print '\nChecking {file}...'.format(file=file)
             with open(file, 'rb') as csvfile:
                 for idx, row in enumerate(csv.DictReader(csvfile), start=1):
                     if idx == 1:
@@ -90,12 +90,11 @@ class BaseFeedsTest(unittest.TestCase):
             self.skipTest('No unique columns found')
 
         for file in self.files:
-            print 'Checking {file}...'.format(file=file)
+            print '\nChecking {file}...'.format(file=file)
             with open(file, 'rb') as csvfile:
                 for idx, row in enumerate(csv.DictReader(csvfile), start=1):
                     for field, values_map in unique_field_values_map.items():
                         if not row.get(field):
-                            print 'Skipping, missing unique column'
                             continue
                         if row[field] in values_map:
                             self.fail(('Unique field {field} encountered duplicate '
