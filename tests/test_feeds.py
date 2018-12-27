@@ -100,9 +100,11 @@ class BaseFeedsTest(unittest.TestCase):
                             continue
                         if row[field] in values_map:
                             self.fail(('Unique field {field} encountered duplicate '
-                                       'value {value} at line {idx}')
-                                      .format(field=field, value=row[field], idx=idx))
-                        values_map.add(row[field])
+                                       'value {value} at lines {prev_idx} and {cur_idx}')
+                                      .format(field=field, value=row[field],
+                                              prev_idx=values_map[row[field]],
+                                              cur_idx=idx))
+                        values_map[row[field]] = idx
 
     def test_column_name_formatting(self):
         for file in self.files:
@@ -121,9 +123,6 @@ class SourceProductsTest(BaseFeedsTest):
 class FilterProductsTest(BaseFeedsTest):
     FEEDS_DIR = 'filter_products'
 
-
-class TagsTest(BaseFeedsTest):
-    FEEDS_DIR = 'tags'
 
 if __name__ == '__main__':
     unittest.main()
