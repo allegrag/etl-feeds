@@ -96,13 +96,24 @@ class BaseFeedsTest(unittest.TestCase):
             print 'Checking {file}...'.format(file=file)
             with open(file, 'rb') as csvfile:
                 for idx, row in enumerate(csv.DictReader(csvfile), start=1):
-                    if not row.get('field'):
-                        print 'Skipping, missing unique column'
-                        continue
                     for field, values_map in unique_field_values_map.items():
+                        if not row.get(field):
+                            print 'Skipping, missing unique column'
+                            continue
                         if row[field] in values_map:
-                            self.fail(('Unique'))
+                            self.fail(('Unique field {field} encountered duplicate '
+                                       'value {value} at line {idx}')
+                                      .format(field=field, value=row[field], idx=idx))
                         values_map.add(row[field])
+
+    def test_column_name_formatting(self):
+        for file in self.files:
+            print 'Checking {file}...'.format(file=file)
+            with open(file, 'rb') as csvfile:
+                for field in csv.DictReader(csvfile).fieldnames:
+                    if field.strip() != field:
+                        self.fail('Error, field {field} contains trailing or leading whitespace'
+                                  .format(field=field))
 
 
 class SourceProductsTest(BaseFeedsTest):
