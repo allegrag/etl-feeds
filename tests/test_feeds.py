@@ -108,7 +108,7 @@ class BaseFeedsTest(unittest.TestCase):
 
     def test_column_name_formatting(self):
         for file in self.files:
-            print 'Checking {file}...'.format(file=file)
+            print '\nChecking {file}...'.format(file=file)
             with open(file, 'rb') as csvfile:
                 for field in csv.DictReader(csvfile).fieldnames:
                     if field.strip() != field:
