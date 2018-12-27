@@ -35,7 +35,6 @@ TYPE_EXCEPTION_MAP = {
 BASE_FEEDS_PATH = os.path.abspath('data/feeds')
 
 
-@unittest.skip("Class disabled")
 class BaseFeedsTest(unittest.TestCase):
     FEEDS_DIR = ''
 
@@ -44,7 +43,7 @@ class BaseFeedsTest(unittest.TestCase):
         self.config = {}
 
         if not self.FEEDS_DIR:
-            self.fail('No feeds directory provided')
+            self.skipTest('No feeds directory provided')
 
         self.FEEDS_PATH = os.path.join(BASE_FEEDS_PATH, self.FEEDS_DIR)
 
@@ -66,7 +65,7 @@ class BaseFeedsTest(unittest.TestCase):
 
     def test_column_types(self):
         for file in self.files:
-            print 'Checking {file}...'.format(file=file)
+            print '\nChecking {file}...'.format(file=file)
             with open(file, 'rb') as csvfile:
                 for idx, row in enumerate(csv.DictReader(csvfile), start=1):
                     if idx == 1:
@@ -93,22 +92,23 @@ class BaseFeedsTest(unittest.TestCase):
             self.skipTest('No unique columns found')
 
         for file in self.files:
-            print 'Checking {file}...'.format(file=file)
+            print '\nChecking {file}...'.format(file=file)
             with open(file, 'rb') as csvfile:
                 for idx, row in enumerate(csv.DictReader(csvfile), start=1):
                     for field, values_map in unique_field_values_map.items():
                         if not row.get(field):
-                            print 'Skipping, missing unique column'
                             continue
                         if row[field] in values_map:
                             self.fail(('Unique field {field} encountered duplicate '
-                                       'value {value} at line {idx}')
-                                      .format(field=field, value=row[field], idx=idx))
-                        values_map.add(row[field])
+                                       'value {value} at lines {prev_idx} and {cur_idx}')
+                                      .format(field=field, value=row[field],
+                                              prev_idx=values_map[row[field]],
+                                              cur_idx=idx))
+                        values_map[row[field]] = idx
 
     def test_column_name_formatting(self):
         for file in self.files:
-            print 'Checking {file}...'.format(file=file)
+            print '\nChecking {file}...'.format(file=file)
             with open(file, 'rb') as csvfile:
                 for field in csv.DictReader(csvfile).fieldnames:
                     if field.strip() != field:
@@ -123,9 +123,6 @@ class SourceProductsTest(BaseFeedsTest):
 class FilterProductsTest(BaseFeedsTest):
     FEEDS_DIR = 'filter_products'
 
-
-class TagsTest(BaseFeedsTest):
-    FEEDS_DIR = 'tags'
 
 if __name__ == '__main__':
     unittest.main()
