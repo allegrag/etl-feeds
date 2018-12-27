@@ -35,16 +35,13 @@ TYPE_EXCEPTION_MAP = {
 BASE_FEEDS_PATH = os.path.abspath('data/feeds')
 
 
-@unittest.skip("Class disabled")
 class BaseFeedsTest(unittest.TestCase):
-    FEEDS_DIR = ''
-
     def setUp(self):
         self.files = []
         self.config = {}
 
         if not self.FEEDS_DIR:
-            self.fail('No feeds directory provided')
+            self.skipTest('No feeds directory provided')
 
         self.FEEDS_PATH = os.path.join(BASE_FEEDS_PATH, self.FEEDS_DIR)
 
