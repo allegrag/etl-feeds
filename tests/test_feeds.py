@@ -36,6 +36,8 @@ BASE_FEEDS_PATH = os.path.abspath('data/feeds')
 
 
 class BaseFeedsTest(unittest.TestCase):
+    FEEDS_DIR = ''
+
     def setUp(self):
         self.files = []
         self.config = {}
