@@ -73,7 +73,7 @@ jobs:
           command: |
             pip install awscli --upgrade --user
             PATH=${PATH}:/home/circleci/.local/bin
-            aws s3 sync ./data s3://$S3_ETL_FEEDS_BUCKET/$S3_ENV/data --region us-west-2               
+            aws s3 sync ./data s3://$S3_ETL_FEEDS_BUCKET/$S3_ENV/data --region us-west-2 --delete            
   deploy-stage:
     docker:
       - image: circleci/python:2.7
@@ -137,7 +137,7 @@ jobs:
           command: |
             pip install awscli --upgrade --user
             PATH=${PATH}:/home/circleci/.local/bin
-            aws s3 sync ./data s3://$S3_ETL_FEEDS_BUCKET/$S3_ENV/data --region us-west-2
+            aws s3 sync ./data s3://$S3_ETL_FEEDS_BUCKET/$S3_ENV/data --region us-west-2 --delete
 workflows:
   version: 2
   build-deploy:
