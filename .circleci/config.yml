@@ -48,7 +48,7 @@ jobs:
     working_directory: *etl_feeds_dir  
     environment:
       S3_ENV: dev
-      S3_ETL_FEEDS_BUCKET: etl-feeds-test
+      S3_ETL_FEEDS_BUCKET: mcp-store-us-west-2
       GZIP: -9
       BACKUP_MAX_DAYS: 60
     steps:
@@ -80,7 +80,7 @@ jobs:
     working_directory: *etl_feeds_dir
     environment:
       S3_ENV: staging
-      S3_ETL_FEEDS_BUCKET: etl-feeds-test
+      S3_ETL_FEEDS_BUCKET: mcp-store-us-west-2
       GZIP: -9
       BACKUP_MAX_DAYS: 60
     steps:
@@ -112,7 +112,7 @@ jobs:
     working_directory: *etl_feeds_dir
     environment:
       S3_ENV: prod
-      S3_ETL_FEEDS_BUCKET: etl-feeds-test
+      S3_ETL_FEEDS_BUCKET: mcp-store-us-west-2
       GZIP: -9
       BACKUP_MAX_DAYS: 60
     steps:
