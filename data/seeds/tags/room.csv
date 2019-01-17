@@ -1,8 +1,7 @@
 Current Category,New Category,Living Room,Dining Room,Family Room,Office,Guest Room,Master Bedroom,Guest Bedroom,Kid's Room,Nursery,Entry,Studio,Open Living / Dining Room
 Accent Rugs,Rugs,X,X,X,X,X,X,X,X,X,X,X,X
 Accent Table,Accent Table,X,,X,X,X,X,X,X,X,,X,X
-Accessory,"Objects
-(Need to pull what is in this and divide out)",X,X,X,X,X,X,X,X,X,X,X,X
+Accessory,"Objects(Need to pull what is in this and divide out)",X,X,X,X,X,X,X,X,X,X,X,X
 Area Rugs,Rugs,X,X,X,X,X,X,X,X,X,X,X,X
 armchair,Accent Chair,X,,X,X,X,X,X,,,X,X,X
 Bar,Bar Cabinet,X,X,X,,,,,,,,X,X
@@ -20,10 +19,8 @@ Buffet,Buffet & Credenza,,X,,,,,,,,,X,X
 bunk bed ,Kids Bedroom Furniture,,,,,,,,X,X,,,
 Cabinet,Storage & Organization,X,,X,X,X,X,X,,,,X,X
 Candle,Candle and Candle Holders,X,X,X,X,X,X,X,X,X,X,X,X
-Chair,"Accent Chair
-(Need to pull what is in this and divide out)",X,,X,X,X,X,X,,,X,X,X
-Chair; armchair,"Accent Chair
-(Need to pull what is in this and divide out)",X,,X,X,X,X,X,,,X,X,X
+Chair,"Accent Chair(Need to pull what is in this and divide out)",X,,X,X,X,X,X,,,X,X,X
+Chair; armchair,"Accent Chair(Need to pull what is in this and divide out)",X,,X,X,X,X,X,,,X,X,X
 Chaise,Chaise,X,X,X,,,X,,,,,X,X
 Chandelier,"Pendants, Chandeliers and sconces",X,X,X,X,X,X,X,X,X,X,X,X
 Changing Table,Changing Table,,,,,,,,X,X,,,
@@ -43,10 +40,8 @@ Decorative Box,"Cannisters, Trays & Boxes",X,X,X,X,X,X,X,X,X,X,X,X
 Decorative Box,"Cannisters, Trays & Boxes",X,X,X,X,X,X,X,X,X,X,X,X
 Desk,Desk,X,,X,X,X,X,X,,,,X,X
 Desk Chair,Desk Chair,X,,X,X,X,X,X,,,,X,X
-Dining Chair,"Dining Side Chair
-(Need to pull what is in this and divide out)",,X,,,,,,,,,X,X
-Dining Chair; Chair,"Dining Arm Chair
-(Need to pull what is in this and divide out)",,X,,,,,,,,,X,X
+Dining Chair,"Dining Side Chair(Need to pull what is in this and divide out)",,X,,,,,,,,,X,X
+Dining Chair; Chair,"Dining Arm Chair(Need to pull what is in this and divide out)",,X,,,,,,,,,X,X
 Dining Table,Dining Table,,X,,,,,,,,,X,X
 Drawer,Dresser,,,,,X,X,X,,,,X,
 Dresser,Dresser,,,,,X,X,X,,,,X,
@@ -63,8 +58,7 @@ hooks,Closet Storage,X,X,X,X,X,X,X,X,X,X,X,X
 Interior Define Sofa,Sofa,X,,X,X,,,,,,,X,X
 Kids Furniture,Kids Furniture,X,,X,,,,,X,X,,,X
 Kitchen Supplies,Table Top,,X,,,,,,,,,X,X
-Lighting,"Table Lamp
-(Need to pull what is in this and divide out)",X,X,X,X,X,X,X,X,X,X,X,X
+Lighting,"Table Lamp(Need to pull what is in this and divide out)",X,X,X,X,X,X,X,X,X,X,X,X
 Lighting; Candle,Candle and Candle Holders,X,X,X,X,X,X,X,X,X,X,X,X
 Lighting; Floor Lamp,Floor Lamp,X,X,X,X,X,X,X,X,X,X,X,X
 Lighting; Pendant,"Pendants, Chandeliers and scounces",X,X,X,X,X,X,X,X,X,X,X,X
@@ -96,12 +90,9 @@ Sectional; Sleepers,Sectionals; Sleepers,X,,X,,,,,,,,X,X
 Serveware,Table Top,,X,,,,,,,,,X,X
 Shelf,Bookcase and Shelving,X,X,X,X,X,X,X,X,X,X,X,X
 Shelving,Bookcase and Shelving,X,X,X,X,X,X,X,X,X,X,X,X
-Side Chair,"Dining Side Chair
-(Need to pull what is in this and divide out)",,X,,,,,,,,,X,X
-Side Chair; Chair; Upholstery Fabric,"Dining Side Chair
-(Need to pull what is in this and divide out)",,X,,,,,,,,,X,X
-Side Chair; Dining Chair; Chair; Upholstery Fabric,"Dining Side Chair
-(Need to pull what is in this and divide out)",,X,,,,,,,,,X,X
+Side Chair,"Dining Side Chair(Need to pull what is in this and divide out)",,X,,,,,,,,,X,X
+Side Chair; Chair; Upholstery Fabric,"Dining Side Chair(Need to pull what is in this and divide out)",,X,,,,,,,,,X,X
+Side Chair; Dining Chair; Chair; Upholstery Fabric,"Dining Side Chair(Need to pull what is in this and divide out)",,X,,,,,,,,,X,X
 Side Table,Side Table,X,,X,,,,,,,,X,X
 Side Table; Accent Table,Accent Table,X,,X,X,X,X,X,X,X,,X,X
 Sideboard,Buffet & Credenza,,X,,,,,,,,,X,X
@@ -123,8 +114,7 @@ Tray,"Cannisters, Trays & Boxes",X,X,X,X,X,X,X,X,X,X,X,X
 TV,TV,X,,X,X,X,X,X,X,X,,X,X
 Type--mirror,Mirror,X,X,X,X,X,X,X,X,X,X,X,X
 Vase,Vases and Vase Filler,X,X,X,X,X,X,X,X,X,X,X,X
-Wall Art,"Prints and Photography
-(Need to pull what is in this and divide out)",X,X,X,X,X,X,X,X,X,X,X,X
+Wall Art,"Prints and Photography(Need to pull what is in this and divide out)",X,X,X,X,X,X,X,X,X,X,X,X
 Wall Art; Kids Furniture,Kids Art,,,,,,,,X,X,,,
 Wall Sculpture,Dimensional Art,X,X,X,X,X,X,X,,,X,X,X
 Wall Shelf,Bookcase and Shelving,X,X,X,X,X,X,X,X,X,X,X,X
